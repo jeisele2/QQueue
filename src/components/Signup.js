@@ -37,6 +37,7 @@ function Signup(props) {
   });
 
   const [success, updateSuccess] = useState(false);
+  const [failure, updateFailure] = useState(false);
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -53,7 +54,7 @@ function Signup(props) {
     }).then(res => {
       if (res.status === 200) {
         updateSuccess(true);
-      }
+      } else updateFailure(true);
     }).catch(err => {
       console.log(err);
     })
@@ -67,6 +68,7 @@ function Signup(props) {
   return (
     <div>
       <Snackbar open={success} autoHideDuration={2000} onClose={() => updateSuccess(false)} message={<span id="success">Account Created!</span>} />
+      <Snackbar open={failure} autoHideDuration={2000} onClose={() => updateFailure(false)} message={<span id="failure">Please fill out all fields</span>} />
       <form className={classes.container} autoComplete="false">
         <div className={classes.inputContainer}>
           <InputLabel htmlFor="username">Username</InputLabel>
@@ -76,7 +78,7 @@ function Signup(props) {
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input id="password" name="password" type="password" className={classes.input} onChange={handleChange('password')}></Input>
           <InputLabel htmlFor="confirmPw">Confirm Password</InputLabel>
-          <Input id="confirmPw" name="confirmPw" className={classes.input} onChange={handleChange('confirmPw')}></Input>
+          <Input id="confirmPw" name="confirmPw" type="password" className={classes.input} onChange={handleChange('confirmPw')}></Input>
           <Button onClick={handleSubmit} className={classes.button}>Create Account</Button>
         </div>
       </form>
